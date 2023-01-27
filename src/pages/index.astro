@@ -1,0 +1,24 @@
+---
+import Layout from "../layout/BasicLayout.astro";
+import { getImageUrls } from "../scripts/get-image-urls";
+
+const urls = await getImageUrls();
+console.log(urls);
+
+// console.log(cuteAnimals);
+---
+
+<Layout>
+  <h1>Hello there my frined</h1>
+  {urls.map((src) => <img width="200" height="150" src={src} alt="image from heaven" />)}
+</Layout>
+
+<style is:global>
+  h1 {
+    font-size: 20px;
+  }
+</style>
+
+<script>
+  // your script
+</script>
