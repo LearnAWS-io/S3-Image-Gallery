@@ -2,6 +2,7 @@ lockfileVersion: 5.4
 
 specifiers:
   '@aws-sdk/client-s3': ^3.259.0
+  '@aws-sdk/cloudfront-signer': ^3.257.0
   '@aws-sdk/s3-presigned-post': ^3.259.0
   '@aws-sdk/s3-request-presigner': ^3.259.0
   '@faker-js/faker': ^7.6.0
@@ -10,6 +11,7 @@ specifiers:
 
 dependencies:
   '@aws-sdk/client-s3': 3.259.0
+  '@aws-sdk/cloudfront-signer': 3.257.0
   '@aws-sdk/s3-presigned-post': 3.259.0
   '@aws-sdk/s3-request-presigner': 3.259.0
   '@thi.ng/ksuid': 3.0.0
@@ -381,6 +383,13 @@ packages:
       tslib: 2.4.1
     transitivePeerDependencies:
       - aws-crt
+    dev: false
+
+  /@aws-sdk/cloudfront-signer/3.257.0:
+    resolution: {integrity: sha512-DU9HzSE1oTs6Gps1fvCAB3FL3A2SiVW772KXjsOyFyvKYjo8Wb2bDlBMfaidv7y3+qvY466ZOxySw22j0vFsJA==}
+    engines: {node: '>=14.0.0'}
+    dependencies:
+      '@aws-sdk/url-parser': 3.257.0
     dev: false
 
   /@aws-sdk/config-resolver/3.259.0:

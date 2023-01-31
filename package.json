@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.259.0",
+    "@aws-sdk/cloudfront-signer": "^3.257.0",
     "@aws-sdk/s3-presigned-post": "^3.259.0",
     "@aws-sdk/s3-request-presigner": "^3.259.0",
     "@thi.ng/ksuid": "^3.0.0",
