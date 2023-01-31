@@ -10,9 +10,10 @@ export const get: APIRoute = async () => {
     Bucket: import.meta.env.S3_BUCKET_NAME,
     // filename is variable in s3
     Key: `images/${ksuid.next()}__\${filename}`,
+    // INFO: https://docs.aws.amazon.com/AmazonS3/latest/API/sigv4-HTTPPOSTConstructPolicy.html#sigv4-ConditionMatching
     Conditions: [
-      ["starts-with", "$Content-Type", "image/jp"],
-      ["eq", "$Content-Type", "image/png"],
+      // matches any image
+      ["starts-with", "$Content-Type", "image/"],
       // file size limit
       ["content-length-range", 10, 2_000_000],
     ],
