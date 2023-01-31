@@ -1,13 +1,32 @@
 ---
 import Layout from "../layout/BasicLayout.astro";
+import { generateCookie } from "../scripts/get-cookies";
 import { getImageUrls } from "../scripts/get-image-urls";
 
+const CF_URL = import.meta.env.CF_DOMAIN;
 const urls = await getImageUrls();
 // console.log(urls);
 
-// if (!Astro.cookies.has("CloudFront-Signature")) {
-setCfCookies();
-// }
+const cookieExpDate = new Date();
+// keep the validation for 5 minutes
+cookieExpDate.setMinutes(cookieExpDate.getMinutes() + 5);
+
+const setCfCookies = () => {
+  const cookies = generateCookie();
+  Object.entries(cookies).forEach((cookie) => {
+    Astro.cookies.set(...cookie, {
+      sameSite: "strict",
+      secure: true,
+      httpOnly: true,
+      domain: ".nootnoot.in",
+      expires: cookieExpDate,
+    });
+  });
+};
+
+if (!Astro.cookies.has("CloudFront-Signature")) {
+  setCfCookies();
+}
 // console.log(cuteAnimals);
 ---
 
@@ -20,7 +39,8 @@ setCfCookies();
           width="300"
           height="250"
           src={`${CF_URL}/${src}`}
-          alt="image from heaven"
+          // show the image name on alt
+          alt={src?.split('__').at(-1)}
         />
       ))
     }
@@ -36,6 +56,54 @@ setCfCookies();
     <button id="submit-btn" type="submit">upload</button>
   </form>
 </Layout>
+
+<script>
+  const form = document.getElementById("file-form") as HTMLFormElement;
+  const fileEl = document.getElementById("file") as HTMLInputElement;
+  const submitBtn = document.getElementById("submit-btn") as HTMLButtonElement;
+
+  const fetchUploadUrl = async () => {
+    const res = await fetch("/api/get-upload-url");
+    return await res.json();
+  };
+
+  const uploadImg = async () => {
+    const res = await fetchUploadUrl();
+    const formData = new FormData();
+    Object.entries(res.fields).forEach((keyval) => {
+      //@ts-ignore
+      formData.append(...keyval);
+    });
+
+    if (fileEl.files === null || fileEl?.files?.length === 0) {
+      throw Error("no file present");
+    }
+    const file = fileEl.files[0];
+    formData.append("Content-Type", file.type);
+    //make sure to append file at the end
+    formData.append("file", file);
+
+    submitBtn.setAttribute("disabled", "");
+    const uploadRes = await fetch(res.url, {
+      method: "POST",
+      body: formData,
+      mode: "cors",
+    });
+
+    console.log(uploadRes);
+
+    if (uploadRes.status !== 204) {
+      throw Error("Invalid image");
+    }
+    form.reset();
+    window.location.reload();
+  };
+
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    uploadImg();
+  });
+</script>
 
 <style is:global>
   html,
@@ -65,7 +133,7 @@ setCfCookies();
     bottom: 10px;
     border-radius: 10px;
     background: #ffffffae;
-    backdrop-filter: blur(10px)
+    backdrop-filter: blur(10px);
   }
   h1 {
     font-size: 20px;
@@ -75,51 +143,4 @@ setCfCookies();
   }
 </style>
 
-<script>
-  const form = document.getElementById("file-form") as HTMLFormElement;
-  const fileEl = document.getElementById("file") as HTMLInputElement;
-  const submitBtn = document.getElementById("submit-btn") as HTMLButtonElement
 
-  const fetchUploadUrl = async () => {
-    const res = await fetch("/api/get-upload-url");
-    return await res.json();
-  };
-
-  const uploadImg = async () => {
-    const res = await fetchUploadUrl();
-    const formData = new FormData();
-    Object.entries(res.fields).forEach((keyval) => {
-      //@ts-ignore
-      formData.append(...keyval);
-    });
-
-    if (fileEl.files === null || fileEl?.files?.length === 0) {
-      throw Error("no file present");
-    }
-    const file = fileEl.files[0];
-    formData.append("Content-Type", file.type);
-    //make sure to append file at the end
-    formData.append("file", file);
-
-
-    submitBtn.setAttribute('disabled','')
-    const uploadRes = await fetch(res.url, {
-      method: "POST",
-      body: formData,
-      mode: "cors",
-    });
-
-    console.log(uploadRes);
-
-    if (uploadRes.status !== 204) {
-      throw Error("Invalid image");
-    }
-    form.reset()
-    window.location.reload();
-  };
-
-  form.addEventListener("submit", (e) => {
-    e.preventDefault();
-    uploadImg();
-  });
-</script>
