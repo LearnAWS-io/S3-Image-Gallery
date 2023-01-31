@@ -1,11 +1,21 @@
 import {
-  GetObjectCommand,
+  // GetObjectCommand,
   ListObjectsV2Command,
   S3Client,
 } from "@aws-sdk/client-s3";
-import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 
-export const s3Client = new S3Client({ region: "us-east-1" });
+// import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
+
+export const s3Client = new S3Client({
+  region: "us-east-1",
+  // TODO: If AWS CLI not configured, put your credentials with S3 acess in ENV
+  /**
+  credentials: {
+    accessKeyId: import.meta.env.AWS_ACCESS_KEY_ID,
+    secretAccessKey: import.meta.env.AWS_SECRET_ACCESS_KEY,
+  },
+  **/
+});
 
 const Bucket = import.meta.env.S3_BUCKET_NAME;
 
@@ -21,6 +31,9 @@ export const getImageUrls = async () => {
     throw Error("no objects returned from s3");
   }
 
+  /**
+  //  INFO: uncomment to use S3 presigned URLs
+
   const signedURLReqs = [];
 
   for (let index = 1; index < Contents.length; index++) {
@@ -30,4 +43,8 @@ export const getImageUrls = async () => {
   }
 
   return Promise.all(signedURLReqs);
+  **/
+
+  const imageList = Contents.slice(1);
+  return imageList.map((obj) => obj.Key);
 };
