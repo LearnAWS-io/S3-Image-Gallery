@@ -5,7 +5,7 @@ import {
 } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 
-const s3Client = new S3Client({ region: "us-east-1" });
+export const s3Client = new S3Client({ region: "us-east-1" });
 
 const Bucket = import.meta.env.S3_BUCKET_NAME;
 

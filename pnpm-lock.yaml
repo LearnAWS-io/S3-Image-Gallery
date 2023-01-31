@@ -2,13 +2,17 @@ lockfileVersion: 5.4
 
 specifiers:
   '@aws-sdk/client-s3': ^3.259.0
+  '@aws-sdk/s3-presigned-post': ^3.259.0
   '@aws-sdk/s3-request-presigner': ^3.259.0
   '@faker-js/faker': ^7.6.0
+  '@thi.ng/ksuid': ^3.0.0
   astro: ^2.0.1
 
 dependencies:
   '@aws-sdk/client-s3': 3.259.0
+  '@aws-sdk/s3-presigned-post': 3.259.0
   '@aws-sdk/s3-request-presigner': 3.259.0
+  '@thi.ng/ksuid': 3.0.0
   astro: 2.0.1
 
 devDependencies:
@@ -802,6 +806,19 @@ packages:
     engines: {node: '>=14.0.0'}
     dependencies:
       '@aws-sdk/types': 3.257.0
+      tslib: 2.4.1
+    dev: false
+
+  /@aws-sdk/s3-presigned-post/3.259.0:
+    resolution: {integrity: sha512-fN3hUDejb5psvVH9RwBeAqg4pP66/n6UoFYQoHkarf5UBZqmHYeoqu46AX4fINO9fHKO/rU8jgwerYnVxgF3pg==}
+    engines: {node: '>=14.0.0'}
+    dependencies:
+      '@aws-sdk/middleware-endpoint': 3.257.0
+      '@aws-sdk/signature-v4': 3.257.0
+      '@aws-sdk/types': 3.257.0
+      '@aws-sdk/util-format-url': 3.257.0
+      '@aws-sdk/util-hex-encoding': 3.201.0
+      '@aws-sdk/util-utf8': 3.254.0
       tslib: 2.4.1
     dev: false
 
@@ -1624,6 +1641,72 @@ packages:
       picocolors: 1.0.0
       tiny-glob: 0.2.9
       tslib: 2.4.1
+    dev: false
+
+  /@thi.ng/api/8.6.3:
+    resolution: {integrity: sha512-zWaaVoR3GEVQbRNsp30dQP6Gb39guEmGKp5zbgWD3C5vmshZdp2huhiEQpCDARBGoVV3KiI/f03HdZ9YCCd7+A==}
+    engines: {node: '>=12.7'}
+    dev: false
+
+  /@thi.ng/base-n/2.3.12:
+    resolution: {integrity: sha512-oAdFdWDsrVbIty0Kq63KrU6QPlevRXt+hOJWfhYdGZi+hRDi42fwd4syzkK4atYaD8sM6FatP/djaOFF1YyPUw==}
+    engines: {node: '>=12.7'}
+    dependencies:
+      '@thi.ng/hex': 2.3.4
+    dev: false
+
+  /@thi.ng/checks/3.3.7:
+    resolution: {integrity: sha512-RX3Oz6icR4VKDyheTcZzDW8znY1xypD1m6FhOpOCwfiqnz+4Y/ycfRmmvFoWp5IzdUScjfBb6PAWQPAl1B1zaw==}
+    engines: {node: '>=12.7'}
+    dependencies:
+      tslib: 2.4.1
+    dev: false
+
+  /@thi.ng/errors/2.2.8:
+    resolution: {integrity: sha512-cJea03+HCnDNlcuz3+5noURGXMT9gPBYgIcXWR76mW0IJ92jfyQ04Yt6J12rO73Td4wNLi+EiRrQdfcjFsyhqw==}
+    engines: {node: '>=12.7'}
+    dev: false
+
+  /@thi.ng/hex/2.3.4:
+    resolution: {integrity: sha512-fcl/KpaxuFBqK58HBIHZtaGjgp+KF4QIdXIVjHaAerwJx/gBVLho93Pq+stwX/2RO297U4NF9LuIM/pjj26RiQ==}
+    engines: {node: '>=12.7'}
+    dev: false
+
+  /@thi.ng/ksuid/3.0.0:
+    resolution: {integrity: sha512-TyiPkmvLhn38axbS5ySPvpAMAr7jZ0Jm6A4qr+q2D116e5EEnCg35/8cvOidpSTghW10YCm/oKb54KTKAolIxw==}
+    engines: {node: '>=12.7'}
+    dependencies:
+      '@thi.ng/base-n': 2.3.12
+      '@thi.ng/errors': 2.2.8
+      '@thi.ng/random': 3.3.21
+      '@thi.ng/strings': 3.3.23
+    dev: false
+
+  /@thi.ng/memoize/3.1.22:
+    resolution: {integrity: sha512-WLRBlCPnmUGaz4CHv9I4V2k282cGX7csdHehVft2ptJjR91yPxxOb1HqXj115eCpAlunvftuSCH/nQkwj+lpFw==}
+    engines: {node: '>=12.7'}
+    dependencies:
+      '@thi.ng/api': 8.6.3
+    dev: false
+
+  /@thi.ng/random/3.3.21:
+    resolution: {integrity: sha512-dmdQlgTQtTPfpzEugtVM1o8KbjjmGq2V5W/V+BFh1SOnRfOcJQLyGtp2556490z1Qhm1QjKouZCd9aqyvMHHqA==}
+    engines: {node: '>=12.7'}
+    dependencies:
+      '@thi.ng/api': 8.6.3
+      '@thi.ng/checks': 3.3.7
+      '@thi.ng/errors': 2.2.8
+      '@thi.ng/hex': 2.3.4
+    dev: false
+
+  /@thi.ng/strings/3.3.23:
+    resolution: {integrity: sha512-VCikrX3/fvNzuYaW0JCXlHooxng5G10KHMT5tLHV39oeweKlNDa+nf2AVfwDoTQbCppWc2rwp/+XBf/P1wYhdA==}
+    engines: {node: '>=12.7'}
+    dependencies:
+      '@thi.ng/api': 8.6.3
+      '@thi.ng/errors': 2.2.8
+      '@thi.ng/hex': 2.3.4
+      '@thi.ng/memoize': 3.1.22
     dev: false
 
   /@types/babel__core/7.20.0:
